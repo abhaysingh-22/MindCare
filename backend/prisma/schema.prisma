@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  password          String
+  firstName         String
+  lastName          String
+  dateOfBirth       DateTime?
+  phoneNumber       String?
+  emergencyContact  String?
+  isActive          Boolean  @default(true)
+  lastLogin         DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relationships
+  moodEntries       MoodEntry[]
+  musicPreferences  MusicPreference[]
+  trustedContacts   TrustedContact[]
+  quizzes           Quiz[]
+  streaks           Streak[]
+  achievements      Achievement[]
+  
+  @@map("users")
+}
+
+model MoodEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  mood        String   // happy, sad, anxious, angry, neutral, excited, stressed
+  intensity   Int      // 1-10 scale
+  triggers    String?  // JSON array of trigger factors
+  notes       String?
+  location    String?
+  weather     String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("mood_entries")
+}
+
+model MusicPreference {
+  id          String   @id @default(cuid())
+  userId      String
+  mood        String
+  genre       String
+  artist      String?
+  track       String?
+  spotifyId   String?
+  youtubeId   String?
+  preference  Float    @default(0.5) // 0-1 scale for ML recommendations
+  playCount   Int      @default(0)
+  lastPlayed  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("music_preferences")
+}
+
+model TrustedContact {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  phone       String
+  email       String?
+  relationship String  // family, friend, therapist, doctor
+  isPrimary   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("trusted_contacts")
+}
+
+model Quiz {
+  id          String     @id @default(cuid())
+  userId      String
+  type        String     // daily_check_in, phq9, gad7, custom
+  questions   String     // JSON array of questions and answers
+  score       Int?
+  analysis    String?    // AI-generated insights
+  createdAt   DateTime   @default(now())
+  
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("quizzes")
+}
+
+model Streak {
+  id          String   @id @default(cuid())
+  userId      String
+  type        String   // mood_logging, meditation, exercise, sleep
+  count       Int      @default(0)
+  maxCount    Int      @default(0)
+  lastUpdate  DateTime @default(now())
+  isActive    Boolean  @default(true)
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("streaks")
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  userId      String
+  type        String   // first_mood_log, week_streak, month_streak, etc.
+  title       String
+  description String
+  points      Int      @default(0)
+  unlockedAt  DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("achievements")
+}
+
+model EmergencyAlert {
+  id          String   @id @default(cuid())
+  userId      String?
+  location    String?
+  message     String?
+  status      String   @default("active") // active, resolved, cancelled
+  createdAt   DateTime @default(now())
+  resolvedAt  DateTime?
+  
+  @@map("emergency_alerts")
+}

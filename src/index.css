@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mental Health Companion Design System - Calming, therapeutic colors */
+
+@layer base {
+  :root {
+    /* Base colors - soft, calming palette */
+    --background: 210 40% 98%;
+    --foreground: 215 25% 26.9%;
+
+    /* Card colors - clean and elevated */
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 26.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 26.9%;
+
+    /* Primary - therapeutic blue */
+    --primary: 200 95% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 200 85% 85%;
+    --primary-glow: 200 95% 75%;
+
+    /* Secondary - calming green */
+    --secondary: 150 40% 70%;
+    --secondary-foreground: 150 50% 15%;
+    --secondary-light: 150 30% 90%;
+
+    /* Supporting colors */
+    --muted: 210 30% 96%;
+    --muted-foreground: 215 16% 46.9%;
+
+    --accent: 180 30% 92%;
+    --accent-foreground: 180 30% 25%;
+
+    /* Therapeutic gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+    --gradient-calm: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--accent)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+
+    /* Shadows for depth */
+    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.1);
+    --shadow-feature: 0 8px 30px -8px hsl(var(--primary) / 0.15);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+
+    /* Warm accent colors */
+    --warm: 25 95% 85%;
+    --warm-foreground: 25 40% 25%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 30% 92%;
+    --input: 215 30% 92%;
+    --ring: 200 95% 45%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode - still calming but warmer */
+    --background: 215 30% 8%;
+    --foreground: 210 30% 95%;
+
+    --card: 215 25% 12%;
+    --card-foreground: 210 30% 95%;
+
+    --popover: 215 25% 12%;
+    --popover-foreground: 210 30% 95%;
+
+    --primary: 200 85% 65%;
+    --primary-foreground: 215 30% 8%;
+    --primary-light: 200 75% 25%;
+    --primary-glow: 200 85% 85%;
+
+    --secondary: 150 30% 60%;
+    --secondary-foreground: 215 30% 8%;
+    --secondary-light: 150 20% 20%;
+
+    --muted: 215 20% 15%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: 180 20% 18%;
+    --accent-foreground: 180 30% 85%;
+
+    --warm: 25 75% 65%;
+    --warm-foreground: 215 30% 8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 20% 18%;
+    --input: 215 20% 18%;
+    --ring: 200 85% 65%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Hero section utilities */
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .calm-gradient {
+    background: var(--gradient-calm);
+  }
+
+  .card-gradient {
+    background: var(--gradient-card);
+  }
+
+  /* Animation utilities */
+  .fade-up {
+    @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+  }
+
+  .fade-up.animate {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:transform hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .glow-on-hover {
+    @apply transition-all duration-300 ease-out hover:shadow-[0_0_30px_hsl(var(--primary-glow)/0.4)];
+  }
+}
